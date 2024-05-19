@@ -30,7 +30,7 @@ A modern and responsive tech blog application built with Node.js, Express, Seque
 
 ## Demo
 
-Check out the live demo [here](https://example.com).
+Check out the live demo [here](https://tech-blog-kqh7.onrender.com/).
 
 ## Installation
 
