@@ -6,7 +6,17 @@ const userData = [
     username: 'testuser',
     email: 'test@example.com',
     password: 'password123'
-  }
+  },
+  {
+    username: 'testuser1',
+    email: 'testuser1@example.com',
+    password: 'password123'
+  },
+  {
+    username: 'testuser2',
+    email: 'testuser2@example.com',
+    password: 'password123'
+  },
 ];
 
 const postData = [
@@ -15,6 +25,16 @@ const postData = [
     content: 'MVC allows developers to maintain a true separation of concerns, devising their code between the Model layer for data, the View layer for design, and the Controller layer for application logic.',
     user_id: 1
   },
+  {
+    title: 'First Post',
+    content: 'This is the content of the first post',
+    user_id: 1
+  },
+  {
+    title: 'Second Post',
+    content: 'This is the content of the second post',
+    user_id: 2
+  }
 ];
 
 const seedDatabase = async () => {
