@@ -1,37 +1,50 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const newPostButton = document.querySelector('#new-post');
-  if (newPostButton) {
-    newPostButton.addEventListener('click', () => {
-      window.location.href = '/create-post';
-    });
-  } else {
-    console.error('New post button not found.');
-  }
+document.querySelectorAll('.delete-post-btn').forEach((button) => {
+  button.addEventListener('click', async (event) => {
+    const postId = event.target.getAttribute('data-id');
 
-  document.querySelectorAll('.edit-post').forEach((button) => {
-    button.addEventListener('click', (event) => {
-      const id = event.target.getAttribute('data-id');
-      window.location.href = `/edit-post/${id}`;
+    const response = await fetch(`/api/posts/${postId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
+
+    if (response.ok) {
+      document.location.replace('/dashboard');
+    } else {
+      alert('Failed to delete post');
+    }
   });
+});
 
-  document.querySelectorAll('.delete-post').forEach((button) => {
-    button.addEventListener('click', async (event) => {
-      const id = event.target.getAttribute('data-id');
+document.querySelectorAll('.edit-post-btn').forEach((button) => {
+  button.addEventListener('click', (event) => {
+    const postId = event.target.getAttribute('data-id');
+    const postTitle = event.target.parentElement.querySelector('h3').innerText;
+    const postContent = event.target.parentElement.querySelector('p:nth-of-type(2)').innerText;
 
-      try {
-        const response = await fetch(`/api/posts/${id}`, {
-          method: 'DELETE',
-        });
+    document.querySelector('#post-title').value = postTitle;
+    document.querySelector('#post-content').value = postContent;
 
-        if (response.ok) {
-          console.log('Post deleted successfully');
-          window.location.reload(); // Reload to reflect the deletion
-        } else {
-          console.error('Failed to delete post');
-        }
-      } catch (error) {
-        console.error('Error deleting post:', error);
+    document.querySelector('#edit-post-modal').style.display = 'block';
+
+    document.querySelector('#edit-post-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = document.querySelector('#post-title').value;
+      const content = document.querySelector('#post-content').value;
+
+      const response = await fetch(`/api/posts/${postId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ title, content }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        document.location.replace('/dashboard');
+      } else {
+        alert('Failed to update post');
       }
     });
   });
